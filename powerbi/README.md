@@ -4,6 +4,10 @@ England's NHS Referral to Treatment waiting list: the national trend since 2007,
 
 This folder is a Power BI project (`RTT_Waiting_List.pbip`): a TMDL semantic model and a PBIR report. It is generated from one Python spec, checked against Microsoft's JSON schemas, and its numbers are recomputed independently in pandas.
 
+![England page in Power BI Desktop](docs/screenshots/england.png)
+
+*In Power BI Desktop after a refresh. Every card matches `docs/expected_values.md`.*
+
 ## Open it
 
 1. Open **`RTT_Waiting_List.pbip`** in Power BI Desktop. In versions before mid-2025, first turn on the preview features for Power BI Project (.pbip), the TMDL model format and the PBIR report format.
