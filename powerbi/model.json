@@ -1,0 +1,809 @@
+{
+  "tables": [
+    {
+      "name": "England",
+      "description": "England each month since August 2007 (NHS England RTT overview time series). Excludes pathways commissioned outside England, as NHS England's headline figures do.",
+      "columns": [
+        {
+          "name": "month",
+          "type": "dateTime",
+          "hidden": false,
+          "key": true
+        },
+        {
+          "name": "median_weeks",
+          "type": "double",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "within_18",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "pct_within_18",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "over_18",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "over_52",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "over_65",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "over_78",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "over_104",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "waiting",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "waiting_with_estimates",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "p92_off_scale",
+          "type": "boolean",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "p92_weeks",
+          "type": "double",
+          "hidden": false,
+          "key": false
+        }
+      ]
+    },
+    {
+      "name": "Providers",
+      "description": "Every provider in the August 2026 extract (NHS trusts and independent sector).",
+      "columns": [
+        {
+          "name": "provider_code",
+          "type": "string",
+          "hidden": true,
+          "key": true
+        },
+        {
+          "name": "provider",
+          "type": "string",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "waiting",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "within_18",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "over_52",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "over_65",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "median_weeks",
+          "type": "double",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "p92_weeks",
+          "type": "double",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "pct_within_18",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "pct_over_52",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "independent",
+          "type": "boolean",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "small",
+          "type": "boolean",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "Sector",
+          "type": "string",
+          "hidden": false,
+          "key": false
+        }
+      ]
+    },
+    {
+      "name": "Specialties",
+      "description": "Treatment functions, England totals (August 2026).",
+      "columns": [
+        {
+          "name": "specialty_code",
+          "type": "string",
+          "hidden": true,
+          "key": true
+        },
+        {
+          "name": "specialty",
+          "type": "string",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "waiting",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "within_18",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "over_52",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "over_65",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "median_weeks",
+          "type": "double",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "p92_weeks",
+          "type": "double",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "pct_within_18",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "pct_over_52",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        }
+      ]
+    },
+    {
+      "name": "Waiting by Provider",
+      "description": "Pathways waiting by provider and treatment function, August 2026. Includes the 31,049 pathways commissioned outside England, so totals here are 0.4% above the England headline.",
+      "columns": [
+        {
+          "name": "provider_code",
+          "type": "string",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "provider",
+          "type": "string",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "specialty_code",
+          "type": "string",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "specialty",
+          "type": "string",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "waiting",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "within_18",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "over_52",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "over_65",
+          "type": "int64",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "median_weeks",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "p92_weeks",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "pct_within_18",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "pct_over_52",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        }
+      ]
+    },
+    {
+      "name": "Funnel",
+      "description": "The 139 NHS trusts in the funnel plot, with the R analysis's z-scores and bands (binomial and overdispersed).",
+      "columns": [
+        {
+          "name": "provider_code",
+          "type": "string",
+          "hidden": true,
+          "key": true
+        },
+        {
+          "name": "provider",
+          "type": "string",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "waiting",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "within_18",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "over_52",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "over_65",
+          "type": "int64",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "median_weeks",
+          "type": "double",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "p92_weeks",
+          "type": "double",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "pct_within_18",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "pct_over_52",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "independent",
+          "type": "boolean",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "small",
+          "type": "boolean",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "p",
+          "type": "double",
+          "hidden": true,
+          "key": false
+        },
+        {
+          "name": "z_binomial",
+          "type": "double",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "z",
+          "type": "double",
+          "hidden": false,
+          "key": false
+        },
+        {
+          "name": "band",
+          "type": "string",
+          "hidden": false,
+          "key": false
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromTable": "Waiting by Provider",
+      "fromColumn": "provider_code",
+      "toTable": "Providers",
+      "toColumn": "provider_code",
+      "both": false
+    },
+    {
+      "fromTable": "Waiting by Provider",
+      "fromColumn": "specialty_code",
+      "toTable": "Specialties",
+      "toColumn": "specialty_code",
+      "both": false
+    }
+  ],
+  "measures": [
+    {
+      "name": "Latest Month",
+      "table": "England",
+      "folder": "England",
+      "format": "mmmm yyyy",
+      "dax": "CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )",
+      "description": "Latest month of data."
+    },
+    {
+      "name": "Waiting List",
+      "table": "England",
+      "folder": "England",
+      "format": "#,0",
+      "dax": "SUM ( England[waiting] )",
+      "description": "Incomplete pathways (people waiting), reported providers only."
+    },
+    {
+      "name": "Waiting List with Estimates",
+      "table": "England",
+      "folder": "England",
+      "format": "#,0",
+      "dax": "SUM ( England[waiting_with_estimates] )",
+      "description": "Including NHS England's estimates for trusts that did not report."
+    },
+    {
+      "name": "% Within 18 Weeks",
+      "table": "England",
+      "folder": "England",
+      "format": "0.0%",
+      "dax": "DIVIDE ( SUM ( England[within_18] ), SUM ( England[waiting] ) )",
+      "description": "Share waiting less than 18 weeks (the constitutional standard is 92%)."
+    },
+    {
+      "name": "92% Standard",
+      "table": "England",
+      "folder": "England",
+      "format": "0%",
+      "dax": "0.92",
+      "description": "The constitutional standard."
+    },
+    {
+      "name": "70% Target",
+      "table": "England",
+      "folder": "England",
+      "format": "0%",
+      "dax": "0.70",
+      "description": "The March 2027 interim target."
+    },
+    {
+      "name": "Latest Waiting List",
+      "table": "England",
+      "folder": "England",
+      "format": "#,0",
+      "dax": "VAR _last = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )\nRETURN CALCULATE ( [Waiting List], REMOVEFILTERS ( England ), England[month] = _last )",
+      "description": "Waiting list in the latest month."
+    },
+    {
+      "name": "Latest % Within 18 Weeks",
+      "table": "England",
+      "folder": "England",
+      "format": "0.0%",
+      "dax": "VAR _last = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )\nRETURN CALCULATE ( [% Within 18 Weeks], REMOVEFILTERS ( England ), England[month] = _last )",
+      "description": "Share within 18 weeks in the latest month."
+    },
+    {
+      "name": "Latest Median Wait",
+      "table": "England",
+      "folder": "England",
+      "format": "0.0",
+      "dax": "VAR _last = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )\nRETURN CALCULATE ( MAX ( England[median_weeks] ), REMOVEFILTERS ( England ), England[month] = _last )",
+      "description": "Median wait in weeks, latest month (interpolated within weekly bands)."
+    },
+    {
+      "name": "Latest 92nd Percentile",
+      "table": "England",
+      "folder": "England",
+      "format": "0.0",
+      "dax": "VAR _last = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )\nRETURN CALCULATE ( MAX ( England[p92_weeks] ), REMOVEFILTERS ( England ), England[month] = _last )",
+      "description": "92nd percentile wait in weeks: the standard says 92% should wait less than 18."
+    },
+    {
+      "name": "Latest Over 52 Weeks",
+      "table": "England",
+      "folder": "England",
+      "format": "#,0",
+      "dax": "VAR _last = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )\nRETURN CALCULATE ( SUM ( England[over_52] ), REMOVEFILTERS ( England ), England[month] = _last )",
+      "description": "Pathways waiting more than a year."
+    },
+    {
+      "name": "Peak Waiting List",
+      "table": "England",
+      "folder": "England",
+      "format": "#,0",
+      "dax": "CALCULATE ( MAX ( England[waiting] ), REMOVEFILTERS ( England ) )",
+      "description": "Largest list on record."
+    },
+    {
+      "name": "Peak Month",
+      "table": "England",
+      "folder": "England",
+      "format": "mmmm yyyy",
+      "dax": "VAR _peak = [Peak Waiting List]\nRETURN\n    CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ), England[waiting] = _peak )",
+      "description": "Month of the largest list."
+    },
+    {
+      "name": "Last Month 92% Was Met",
+      "table": "England",
+      "folder": "England",
+      "format": "mmmm yyyy",
+      "dax": "CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ), England[within_18] >= 0.92 * England[waiting] )",
+      "description": "The last month England met the 92% standard."
+    },
+    {
+      "name": "Gap to 70%",
+      "table": "England",
+      "folder": "England",
+      "format": "0.0\" points\"",
+      "dax": "100 * ( [70% Target] - [Latest % Within 18 Weeks] )",
+      "description": "Percentage points still to go."
+    },
+    {
+      "name": "Pathways",
+      "table": "Waiting by Provider",
+      "folder": "Providers",
+      "format": "#,0",
+      "dax": "SUM ( 'Waiting by Provider'[waiting] )",
+      "description": "Pathways waiting (provider extract)."
+    },
+    {
+      "name": "Provider % Within 18 Weeks",
+      "table": "Waiting by Provider",
+      "folder": "Providers",
+      "format": "0.0%",
+      "dax": "DIVIDE ( SUM ( 'Waiting by Provider'[within_18] ), [Pathways] )",
+      "description": "Share within 18 weeks for any provider, specialty or sector in context."
+    },
+    {
+      "name": "Provider Over 52 Weeks",
+      "table": "Waiting by Provider",
+      "folder": "Providers",
+      "format": "#,0",
+      "dax": "SUM ( 'Waiting by Provider'[over_52] )",
+      "description": "Pathways over a year."
+    },
+    {
+      "name": "Share of List",
+      "table": "Waiting by Provider",
+      "folder": "Providers",
+      "format": "0.0%",
+      "dax": "DIVIDE ( [Pathways], CALCULATE ( [Pathways], REMOVEFILTERS ( Providers ) ) )",
+      "description": "Share of all pathways in the extract (within any specialty filter)."
+    },
+    {
+      "name": "Specialty % Within 18 Weeks",
+      "table": "Specialties",
+      "folder": "Specialties",
+      "format": "0.0%",
+      "dax": "DIVIDE ( SUM ( Specialties[within_18] ), SUM ( Specialties[waiting] ) )",
+      "description": "England figure per treatment function (excludes non-English commissioners)."
+    },
+    {
+      "name": "Specialty Over 52 Weeks",
+      "table": "Specialties",
+      "folder": "Specialties",
+      "format": "#,0",
+      "dax": "SUM ( Specialties[over_52] )",
+      "description": "Pathways over a year, by treatment function."
+    },
+    {
+      "name": "Funnel List Size",
+      "table": "Funnel",
+      "folder": "Funnel",
+      "format": "#,0",
+      "dax": "SUM ( Funnel[waiting] )",
+      "description": "Trust waiting list (funnel x axis)."
+    },
+    {
+      "name": "Funnel % Within 18 Weeks",
+      "table": "Funnel",
+      "folder": "Funnel",
+      "format": "0.0%",
+      "dax": "DIVIDE ( SUM ( Funnel[within_18] ), SUM ( Funnel[waiting] ) )",
+      "description": "Trust performance (funnel y axis)."
+    },
+    {
+      "name": "Trusts Better Than Chance",
+      "table": "Funnel",
+      "folder": "Funnel",
+      "format": "#,0",
+      "dax": "CALCULATE ( COUNTROWS ( Funnel ), Funnel[band] = \"Above 99.8% limit\" )",
+      "description": "Above the overdispersed 99.8% limit."
+    },
+    {
+      "name": "Trusts Worse Than Chance",
+      "table": "Funnel",
+      "folder": "Funnel",
+      "format": "#,0",
+      "dax": "CALCULATE ( COUNTROWS ( Funnel ), Funnel[band] = \"Below 99.8% limit\" )",
+      "description": "Below the overdispersed 99.8% limit."
+    },
+    {
+      "name": "Binomial Outliers",
+      "table": "Funnel",
+      "folder": "Funnel",
+      "format": "#,0",
+      "dax": "CALCULATE ( COUNTROWS ( Funnel ), ABS ( Funnel[z_binomial] ) > 3.09 )",
+      "description": "Trusts outside plain binomial 99.8% limits: nearly all of them, which is why overdispersion matters."
+    }
+  ],
+  "pages": [
+    {
+      "page": "England",
+      "visuals": [
+        {
+          "type": "textbox",
+          "x": 24,
+          "y": 12,
+          "width": 1232,
+          "height": 52
+        },
+        {
+          "type": "card",
+          "x": 24,
+          "y": 76,
+          "width": 236,
+          "height": 96
+        },
+        {
+          "type": "card",
+          "x": 272,
+          "y": 76,
+          "width": 236,
+          "height": 96
+        },
+        {
+          "type": "card",
+          "x": 520,
+          "y": 76,
+          "width": 236,
+          "height": 96
+        },
+        {
+          "type": "card",
+          "x": 768,
+          "y": 76,
+          "width": 236,
+          "height": 96
+        },
+        {
+          "type": "card",
+          "x": 1016,
+          "y": 76,
+          "width": 240,
+          "height": 96
+        },
+        {
+          "type": "lineChart",
+          "x": 24,
+          "y": 184,
+          "width": 610,
+          "height": 400
+        },
+        {
+          "type": "lineChart",
+          "x": 646,
+          "y": 184,
+          "width": 610,
+          "height": 400
+        },
+        {
+          "type": "card",
+          "x": 24,
+          "y": 596,
+          "width": 400,
+          "height": 112
+        },
+        {
+          "type": "card",
+          "x": 436,
+          "y": 596,
+          "width": 400,
+          "height": 112
+        },
+        {
+          "type": "card",
+          "x": 848,
+          "y": 596,
+          "width": 408,
+          "height": 112
+        }
+      ]
+    },
+    {
+      "page": "Specialties and providers",
+      "visuals": [
+        {
+          "type": "textbox",
+          "x": 24,
+          "y": 12,
+          "width": 860,
+          "height": 52
+        },
+        {
+          "type": "slicer",
+          "x": 900,
+          "y": 8,
+          "width": 356,
+          "height": 64
+        },
+        {
+          "type": "clusteredBarChart",
+          "x": 24,
+          "y": 76,
+          "width": 560,
+          "height": 632
+        },
+        {
+          "type": "tableEx",
+          "x": 600,
+          "y": 76,
+          "width": 656,
+          "height": 632
+        }
+      ]
+    },
+    {
+      "page": "Funnel plot",
+      "visuals": [
+        {
+          "type": "textbox",
+          "x": 24,
+          "y": 12,
+          "width": 1232,
+          "height": 52
+        },
+        {
+          "type": "card",
+          "x": 24,
+          "y": 76,
+          "width": 400,
+          "height": 96
+        },
+        {
+          "type": "card",
+          "x": 436,
+          "y": 76,
+          "width": 400,
+          "height": 96
+        },
+        {
+          "type": "card",
+          "x": 848,
+          "y": 76,
+          "width": 408,
+          "height": 96
+        },
+        {
+          "type": "scatterChart",
+          "x": 24,
+          "y": 184,
+          "width": 760,
+          "height": 524
+        },
+        {
+          "type": "tableEx",
+          "x": 800,
+          "y": 184,
+          "width": 456,
+          "height": 524
+        }
+      ]
+    }
+  ],
+  "base_url": "https://raw.githubusercontent.com/QaisBello/nhs-rtt-r/main/data/clean/"
+}

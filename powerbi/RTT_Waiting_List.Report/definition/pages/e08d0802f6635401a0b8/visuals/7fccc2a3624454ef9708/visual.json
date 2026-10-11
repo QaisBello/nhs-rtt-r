@@ -1,0 +1,127 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "7fccc2a3624454ef9708",
+  "position": {
+    "x": 24,
+    "y": 184,
+    "z": 10,
+    "height": 524,
+    "width": 760,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Funnel"
+                    }
+                  },
+                  "Property": "provider"
+                }
+              },
+              "queryRef": "Funnel.provider",
+              "nativeQueryRef": "provider",
+              "active": true,
+              "displayName": "Trust"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Funnel"
+                    }
+                  },
+                  "Property": "band"
+                }
+              },
+              "queryRef": "Funnel.band",
+              "nativeQueryRef": "band",
+              "displayName": "Band"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Funnel"
+                    }
+                  },
+                  "Property": "Funnel List Size"
+                }
+              },
+              "queryRef": "Funnel.Funnel List Size",
+              "nativeQueryRef": "Funnel List Size",
+              "active": true,
+              "displayName": "Waiting list"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Funnel"
+                    }
+                  },
+                  "Property": "Funnel % Within 18 Weeks"
+                }
+              },
+              "queryRef": "Funnel.Funnel % Within 18 Weeks",
+              "nativeQueryRef": "Funnel % Within 18 Weeks",
+              "displayName": "Within 18 weeks"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Trust size against performance, coloured by funnel band'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

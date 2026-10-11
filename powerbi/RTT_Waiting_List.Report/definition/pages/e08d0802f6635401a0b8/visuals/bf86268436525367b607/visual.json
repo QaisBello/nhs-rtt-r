@@ -1,0 +1,130 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "bf86268436525367b607",
+  "position": {
+    "x": 800,
+    "y": 184,
+    "z": 11,
+    "height": 524,
+    "width": 456,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Funnel"
+                    }
+                  },
+                  "Property": "provider"
+                }
+              },
+              "queryRef": "Funnel.provider",
+              "nativeQueryRef": "provider",
+              "displayName": "Trust"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Funnel"
+                    }
+                  },
+                  "Property": "band"
+                }
+              },
+              "queryRef": "Funnel.band",
+              "nativeQueryRef": "band",
+              "displayName": "Band"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Funnel"
+                    }
+                  },
+                  "Property": "Funnel % Within 18 Weeks"
+                }
+              },
+              "queryRef": "Funnel.Funnel % Within 18 Weeks",
+              "nativeQueryRef": "Funnel % Within 18 Weeks",
+              "displayName": "Within 18"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Funnel"
+                    }
+                  },
+                  "Property": "z"
+                }
+              },
+              "queryRef": "Funnel.z",
+              "nativeQueryRef": "z",
+              "displayName": "z (overdispersed)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Funnel"
+                  }
+                },
+                "Property": "z"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Trusts and their z-scores'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

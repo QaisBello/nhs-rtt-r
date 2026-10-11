@@ -33,6 +33,10 @@ Track: Health Data · R (tidyverse, ggplot2, R Markdown, testthat) · [Live repo
 - **Percentiles from banded data** (`wait_percentile()`): waits are spread evenly within each one-week band and the median and 92nd percentile interpolated, which is NHS England's own method. That's why the rebuilt figures match to the hundredth of a week.
 - **Overdispersed funnel plot** (`funnel_overdispersed()`): with lists of 100,000 patients, binomial limits are so tight that nearly every trust is "significant". Following Spiegelhalter (2005), an additive random-effects term is estimated from winsorised z-scores and added to each trust's variance, so only trusts that differ beyond normal between-trust variation are flagged.
 
+## Power BI version
+
+The same analysis as a Power BI report, in [`powerbi/`](powerbi/): England trend, specialties and providers, and the funnel plot. Every headline figure is checked against the R results. Open `powerbi/RTT_Waiting_List.pbip` in Power BI Desktop and click Refresh; it reads `data/clean` from this repo.
+
 ## Run it
 
 ```r

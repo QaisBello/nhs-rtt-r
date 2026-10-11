@@ -1,0 +1,150 @@
+/// Pathways waiting by provider and treatment function, August 2026. Includes the 31,049 pathways commissioned outside England, so totals here are 0.4% above the England headline.
+table 'Waiting by Provider'
+	lineageTag: ce78a3bb-96ca-4a79-b650-93f29bf4bdfa
+
+	/// Pathways waiting (provider extract).
+	measure Pathways = SUM ( 'Waiting by Provider'[waiting] )
+		formatString: #,0
+		displayFolder: Providers
+		lineageTag: 556b371f-ab0b-4be6-94ee-e1830c945dfb
+
+	/// Share within 18 weeks for any provider, specialty or sector in context.
+	measure 'Provider % Within 18 Weeks' = DIVIDE ( SUM ( 'Waiting by Provider'[within_18] ), [Pathways] )
+		formatString: 0.0%
+		displayFolder: Providers
+		lineageTag: 051de81c-5ef8-47a9-82b6-57ac51f516e9
+
+	/// Pathways over a year.
+	measure 'Provider Over 52 Weeks' = SUM ( 'Waiting by Provider'[over_52] )
+		formatString: #,0
+		displayFolder: Providers
+		lineageTag: 3d4f6dc9-115a-44fe-8822-26358b919837
+
+	/// Share of all pathways in the extract (within any specialty filter).
+	measure 'Share of List' = DIVIDE ( [Pathways], CALCULATE ( [Pathways], REMOVEFILTERS ( Providers ) ) )
+		formatString: 0.0%
+		displayFolder: Providers
+		lineageTag: 138a75c7-cd00-496e-88bd-5e7192304caf
+
+	column provider_code
+		dataType: string
+		isHidden
+		lineageTag: f80cc138-764a-4c42-8d6b-fcfc65f2401f
+		summarizeBy: none
+		sourceColumn: provider_code
+
+	column provider
+		dataType: string
+		isHidden
+		lineageTag: 8404735f-a53b-49a2-b249-6448e0444ebe
+		summarizeBy: none
+		sourceColumn: provider
+
+	column specialty_code
+		dataType: string
+		isHidden
+		lineageTag: 7794cacb-0c39-4a96-92c1-6b6363ee6b2f
+		summarizeBy: none
+		sourceColumn: specialty_code
+
+	column specialty
+		dataType: string
+		isHidden
+		lineageTag: 082d4c8a-7d4e-492f-b5e5-9b19a6cb1cc0
+		summarizeBy: none
+		sourceColumn: specialty
+
+	column waiting
+		dataType: int64
+		formatString: #,0
+		lineageTag: 60a31310-40fd-475e-a6aa-3ac94fc00d7b
+		summarizeBy: none
+		sourceColumn: waiting
+
+	column within_18
+		dataType: int64
+		formatString: #,0
+		lineageTag: 89f3a2b2-b8fe-4f81-8362-29ecf2eaf484
+		summarizeBy: none
+		sourceColumn: within_18
+
+	column over_52
+		dataType: int64
+		formatString: #,0
+		lineageTag: c96b05ab-0c68-4bb3-93cd-5d2aa9dcecc0
+		summarizeBy: none
+		sourceColumn: over_52
+
+	column over_65
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1f318562-fbd4-4e1f-b971-c1d41bc8ddf0
+		summarizeBy: none
+		sourceColumn: over_65
+
+	column median_weeks
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: aa839052-902b-4333-9202-ded185d0b972
+		summarizeBy: none
+		sourceColumn: median_weeks
+
+	column p92_weeks
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 1c975d4c-8f95-48bf-a589-7f988d383bcf
+		summarizeBy: none
+		sourceColumn: p92_weeks
+
+	column pct_within_18
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: ae5df826-a537-4154-ad7c-ce60756d7400
+		summarizeBy: none
+		sourceColumn: pct_within_18
+
+	column pct_over_52
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 21c49c75-4f80-4bd5-8026-baf2e0f7a175
+		summarizeBy: none
+		sourceColumn: pct_over_52
+
+	partition 'Waiting by Provider' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(
+				        Web.Contents(BaseUrl, [RelativePath = "provider_specialty.csv"]),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				    ),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    // empty cells and R's NA arrive as text and would fail the type change: make them null
+				    #"Blanks to Null" = Table.TransformColumns(#"Promoted Headers", {}, each if _ = "" or _ = "NA" then null else _),
+				    #"Changed Types" = Table.TransformColumnTypes(
+				        #"Blanks to Null",
+				        {
+				            {"provider_code", type text},
+				            {"provider", type text},
+				            {"specialty_code", type text},
+				            {"specialty", type text},
+				            {"waiting", Int64.Type},
+				            {"within_18", Int64.Type},
+				            {"over_52", Int64.Type},
+				            {"over_65", Int64.Type},
+				            {"median_weeks", type number},
+				            {"p92_weeks", type number},
+				            {"pct_within_18", type number},
+				            {"pct_over_52", type number}
+				        },
+				        "en-US"
+				    ),
+				    #"Filtered Rows" = #"Changed Types",
+				    Result = #"Filtered Rows"
+				in
+				    Result
+

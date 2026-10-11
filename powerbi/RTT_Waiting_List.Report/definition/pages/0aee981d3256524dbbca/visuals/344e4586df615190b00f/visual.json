@@ -1,0 +1,159 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "344e4586df615190b00f",
+  "position": {
+    "x": 600,
+    "y": 76,
+    "z": 11,
+    "height": 632,
+    "width": 656,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Providers"
+                    }
+                  },
+                  "Property": "provider"
+                }
+              },
+              "queryRef": "Providers.provider",
+              "nativeQueryRef": "provider",
+              "displayName": "Provider"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Providers"
+                    }
+                  },
+                  "Property": "Sector"
+                }
+              },
+              "queryRef": "Providers.Sector",
+              "nativeQueryRef": "Sector"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Waiting by Provider"
+                    }
+                  },
+                  "Property": "Pathways"
+                }
+              },
+              "queryRef": "Waiting by Provider.Pathways",
+              "nativeQueryRef": "Pathways",
+              "displayName": "Waiting"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Waiting by Provider"
+                    }
+                  },
+                  "Property": "Share of List"
+                }
+              },
+              "queryRef": "Waiting by Provider.Share of List",
+              "nativeQueryRef": "Share of List",
+              "displayName": "Share"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Waiting by Provider"
+                    }
+                  },
+                  "Property": "Provider % Within 18 Weeks"
+                }
+              },
+              "queryRef": "Waiting by Provider.Provider % Within 18 Weeks",
+              "nativeQueryRef": "Provider % Within 18 Weeks",
+              "displayName": "Within 18 wks"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Waiting by Provider"
+                    }
+                  },
+                  "Property": "Provider Over 52 Weeks"
+                }
+              },
+              "queryRef": "Waiting by Provider.Provider Over 52 Weeks",
+              "nativeQueryRef": "Provider Over 52 Weeks",
+              "displayName": "Over 52 wks"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Waiting by Provider"
+                  }
+                },
+                "Property": "Pathways"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Providers, largest lists first (click a specialty bar to filter)'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

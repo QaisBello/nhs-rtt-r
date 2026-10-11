@@ -1,0 +1,235 @@
+/// England each month since August 2007 (NHS England RTT overview time series). Excludes pathways commissioned outside England, as NHS England's headline figures do.
+table England
+	lineageTag: 5ba8281f-41be-4bb8-a5c0-ff85ea758d1a
+
+	/// Latest month of data.
+	measure 'Latest Month' = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )
+		formatString: mmmm yyyy
+		displayFolder: England
+		lineageTag: 101f805b-e553-4144-8b61-919c61db2358
+
+	/// Incomplete pathways (people waiting), reported providers only.
+	measure 'Waiting List' = SUM ( England[waiting] )
+		formatString: #,0
+		displayFolder: England
+		lineageTag: 3824eba9-4fee-4b8c-af8c-d9fe25e380f5
+
+	/// Including NHS England's estimates for trusts that did not report.
+	measure 'Waiting List with Estimates' = SUM ( England[waiting_with_estimates] )
+		formatString: #,0
+		displayFolder: England
+		lineageTag: 76cf3190-8a6c-41e5-a59f-9f81a372f958
+
+	/// Share waiting less than 18 weeks (the constitutional standard is 92%).
+	measure '% Within 18 Weeks' = DIVIDE ( SUM ( England[within_18] ), SUM ( England[waiting] ) )
+		formatString: 0.0%
+		displayFolder: England
+		lineageTag: db808b0c-2b34-46b5-882e-a86851278ba6
+
+	/// The constitutional standard.
+	measure '92% Standard' = 0.92
+		formatString: 0%
+		displayFolder: England
+		lineageTag: c9a6dc8e-25e6-495d-9d8d-8744f65b0f4b
+
+	/// The March 2027 interim target.
+	measure '70% Target' = 0.70
+		formatString: 0%
+		displayFolder: England
+		lineageTag: 710c48ce-096f-45ee-8391-176a22c4f085
+
+	/// Waiting list in the latest month.
+	measure 'Latest Waiting List' =
+			VAR _last = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )
+			RETURN CALCULATE ( [Waiting List], REMOVEFILTERS ( England ), England[month] = _last )
+		formatString: #,0
+		displayFolder: England
+		lineageTag: d37b53e8-7413-44bc-a404-499dabdb0672
+
+	/// Share within 18 weeks in the latest month.
+	measure 'Latest % Within 18 Weeks' =
+			VAR _last = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )
+			RETURN CALCULATE ( [% Within 18 Weeks], REMOVEFILTERS ( England ), England[month] = _last )
+		formatString: 0.0%
+		displayFolder: England
+		lineageTag: 6f712440-4cc1-4092-bd0f-0f0aa77febcd
+
+	/// Median wait in weeks, latest month (interpolated within weekly bands).
+	measure 'Latest Median Wait' =
+			VAR _last = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )
+			RETURN CALCULATE ( MAX ( England[median_weeks] ), REMOVEFILTERS ( England ), England[month] = _last )
+		formatString: 0.0
+		displayFolder: England
+		lineageTag: 2945dc90-9d2e-4c9f-ac1e-b85d2189c43b
+
+	/// 92nd percentile wait in weeks: the standard says 92% should wait less than 18.
+	measure 'Latest 92nd Percentile' =
+			VAR _last = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )
+			RETURN CALCULATE ( MAX ( England[p92_weeks] ), REMOVEFILTERS ( England ), England[month] = _last )
+		formatString: 0.0
+		displayFolder: England
+		lineageTag: 8de6006a-4073-4b3e-b409-f4c9ac55c29b
+
+	/// Pathways waiting more than a year.
+	measure 'Latest Over 52 Weeks' =
+			VAR _last = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ) )
+			RETURN CALCULATE ( SUM ( England[over_52] ), REMOVEFILTERS ( England ), England[month] = _last )
+		formatString: #,0
+		displayFolder: England
+		lineageTag: cc7bc60d-800b-4b98-af44-60470c00cffe
+
+	/// Largest list on record.
+	measure 'Peak Waiting List' = CALCULATE ( MAX ( England[waiting] ), REMOVEFILTERS ( England ) )
+		formatString: #,0
+		displayFolder: England
+		lineageTag: 016da710-e526-4cb7-a4e2-8a7e4ab0d235
+
+	/// Month of the largest list.
+	measure 'Peak Month' =
+			VAR _peak = [Peak Waiting List]
+			RETURN
+			    CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ), England[waiting] = _peak )
+		formatString: mmmm yyyy
+		displayFolder: England
+		lineageTag: f27663c5-3a69-4495-9267-c36f73133f1d
+
+	/// The last month England met the 92% standard.
+	measure 'Last Month 92% Was Met' = CALCULATE ( MAX ( England[month] ), REMOVEFILTERS ( England ), England[within_18] >= 0.92 * England[waiting] )
+		formatString: mmmm yyyy
+		displayFolder: England
+		lineageTag: 37c936a0-589f-4a75-8eff-649cf0bc64f0
+
+	/// Percentage points still to go.
+	measure 'Gap to 70%' = 100 * ( [70% Target] - [Latest % Within 18 Weeks] )
+		formatString: 0.0" points"
+		displayFolder: England
+		lineageTag: 68d6e3c3-b77d-48e7-a644-31556cfc56a5
+
+	column month
+		dataType: dateTime
+		isKey
+		formatString: mmm yyyy
+		lineageTag: 5186ec7c-8df7-47b7-9dc8-c613683796f9
+		summarizeBy: none
+		sourceColumn: month
+
+	column median_weeks
+		dataType: double
+		formatString: 0.0
+		lineageTag: cd985b59-0520-4aa9-8437-40bd35e8bfd7
+		summarizeBy: none
+		sourceColumn: median_weeks
+
+	column within_18
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9b72e2ef-30ce-4f38-b146-fe9c6a16fb10
+		summarizeBy: none
+		sourceColumn: within_18
+
+	column pct_within_18
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: adc396f0-9406-4ced-9f3d-d2d4253cad54
+		summarizeBy: none
+		sourceColumn: pct_within_18
+
+	column over_18
+		dataType: int64
+		formatString: #,0
+		lineageTag: 56074639-52cd-4f82-8411-1e3d010e3907
+		summarizeBy: none
+		sourceColumn: over_18
+
+	column over_52
+		dataType: int64
+		formatString: #,0
+		lineageTag: c0bf6584-19df-474d-900b-927673ccee26
+		summarizeBy: none
+		sourceColumn: over_52
+
+	column over_65
+		dataType: int64
+		formatString: #,0
+		lineageTag: ddddc0f8-ed7c-455d-9816-01d24a48ea7b
+		summarizeBy: none
+		sourceColumn: over_65
+
+	column over_78
+		dataType: int64
+		formatString: #,0
+		lineageTag: 855888c0-7927-4c24-9346-7a069bf33514
+		summarizeBy: none
+		sourceColumn: over_78
+
+	column over_104
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3a797260-232d-460d-bd95-2bf494fb98c3
+		summarizeBy: none
+		sourceColumn: over_104
+
+	column waiting
+		dataType: int64
+		formatString: #,0
+		lineageTag: 971f1e5a-a66f-4ff7-8954-fdc15a9bcb11
+		summarizeBy: none
+		sourceColumn: waiting
+
+	column waiting_with_estimates
+		dataType: int64
+		formatString: #,0
+		lineageTag: d28c23b0-70e5-4631-be7d-ff91b745c7a2
+		summarizeBy: none
+		sourceColumn: waiting_with_estimates
+
+	column p92_off_scale
+		dataType: boolean
+		isHidden
+		lineageTag: fb97c4b0-1fe4-4e81-babc-53a7478b1c63
+		summarizeBy: none
+		sourceColumn: p92_off_scale
+
+	column p92_weeks
+		dataType: double
+		formatString: 0.0
+		lineageTag: 3c31c6f2-bdb2-45a6-aee5-bb5c72270e45
+		summarizeBy: none
+		sourceColumn: p92_weeks
+
+	partition England = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(
+				        Web.Contents(BaseUrl, [RelativePath = "england_timeseries.csv"]),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				    ),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    // empty cells and R's NA arrive as text and would fail the type change: make them null
+				    #"Blanks to Null" = Table.TransformColumns(#"Promoted Headers", {}, each if _ = "" or _ = "NA" then null else _),
+				    #"Changed Types" = Table.TransformColumnTypes(
+				        #"Blanks to Null",
+				        {
+				            {"month", type datetime},
+				            {"median_weeks", type number},
+				            {"within_18", Int64.Type},
+				            {"pct_within_18", type number},
+				            {"over_18", Int64.Type},
+				            {"over_52", Int64.Type},
+				            {"over_65", Int64.Type},
+				            {"over_78", Int64.Type},
+				            {"over_104", Int64.Type},
+				            {"waiting", Int64.Type},
+				            {"waiting_with_estimates", Int64.Type},
+				            {"p92_off_scale", type logical},
+				            {"p92_weeks", type number}
+				        },
+				        "en-US"
+				    ),
+				    #"Filtered Rows" = #"Changed Types",
+				    Result = #"Filtered Rows"
+				in
+				    Result
+

@@ -1,0 +1,630 @@
+cultureInfo en-GB
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "england.latest_median_wait": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "Latest Median Wait"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Median wait (weeks)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.peak_month": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "Peak Month"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Largest list on record": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.latest_92nd_percentile": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "Latest 92nd Percentile"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "92nd percentile (weeks)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.latest__within_18_weeks": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "Latest % Within 18 Weeks"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Within 18 weeks": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.last_month_92_was_met": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "Last Month 92% Was Met"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Last time 92% was met": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.month": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "month"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Month": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.waiting_list": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "Waiting List"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Waiting list": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.waiting_list_with_estimates": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "Waiting List with Estimates"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "With estimates": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.latest_over_52_weeks": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "Latest Over 52 Weeks"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Waiting over a year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.within_18_weeks": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "% Within 18 Weeks"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Within 18 weeks": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.column92_standard": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "92% Standard"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "92% standard": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.column70_target": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "70% Target"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "70% target": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.gap_to_70": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "Gap to 70%"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Still to go to 70%": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "england.latest_waiting_list": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "England",
+			          "ConceptualProperty": "Latest Waiting List"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Waiting, Aug 2026": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "specialties.specialty": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Specialties",
+			          "ConceptualProperty": "specialty"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Specialty": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "specialties.specialty__within_18_weeks": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Specialties",
+			          "ConceptualProperty": "Specialty % Within 18 Weeks"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Within 18 weeks": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "providers.provider": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Providers",
+			          "ConceptualProperty": "provider"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Provider": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "waiting_by_provider.pathways": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Waiting by Provider",
+			          "ConceptualProperty": "Pathways"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Waiting": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "waiting_by_provider.share_of_list": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Waiting by Provider",
+			          "ConceptualProperty": "Share of List"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Share": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "waiting_by_provider.provider__within_18_weeks": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Waiting by Provider",
+			          "ConceptualProperty": "Provider % Within 18 Weeks"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Within 18 wks": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "waiting_by_provider.provider_over_52_weeks": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Waiting by Provider",
+			          "ConceptualProperty": "Provider Over 52 Weeks"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Over 52 wks": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "funnel.trusts_worse_than_chance": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Funnel",
+			          "ConceptualProperty": "Trusts Worse Than Chance"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Worse than chance (overdispersed)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "funnel.provider": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Funnel",
+			          "ConceptualProperty": "provider"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Trust": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "funnel.band": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Funnel",
+			          "ConceptualProperty": "band"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Band": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "funnel.funnel_list_size": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Funnel",
+			          "ConceptualProperty": "Funnel List Size"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Waiting list": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "funnel.funnel__within_18_weeks": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Funnel",
+			          "ConceptualProperty": "Funnel % Within 18 Weeks"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Within 18 weeks": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Within 18": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "funnel.trusts_better_than_chance": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Funnel",
+			          "ConceptualProperty": "Trusts Better Than Chance"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Better than chance (overdispersed)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "funnel.z": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Funnel",
+			          "ConceptualProperty": "z"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "z (overdispersed)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "funnel.binomial_outliers": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Funnel",
+			          "ConceptualProperty": "Binomial Outliers"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Outliers on plain binomial limits": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

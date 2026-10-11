@@ -1,0 +1,8 @@
+relationship bc45feff-9ea4-5db0-abf4-dbb47bf3e282
+	fromColumn: 'Waiting by Provider'.provider_code
+	toColumn: Providers.provider_code
+
+relationship 533f7290-c4ff-570f-ad7f-a57fb7d46161
+	fromColumn: 'Waiting by Provider'.specialty_code
+	toColumn: Specialties.specialty_code
+

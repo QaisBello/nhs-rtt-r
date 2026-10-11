@@ -1,0 +1,176 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "8f1e1e7e1e0a582eba7c",
+  "position": {
+    "x": 646,
+    "y": 184,
+    "z": 11,
+    "height": 400,
+    "width": 610,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "England"
+                    }
+                  },
+                  "Property": "month"
+                }
+              },
+              "queryRef": "England.month",
+              "nativeQueryRef": "month",
+              "active": true,
+              "displayName": "Month"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "England"
+                    }
+                  },
+                  "Property": "% Within 18 Weeks"
+                }
+              },
+              "queryRef": "England.% Within 18 Weeks",
+              "nativeQueryRef": "% Within 18 Weeks",
+              "displayName": "Within 18 weeks"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "England"
+                    }
+                  },
+                  "Property": "92% Standard"
+                }
+              },
+              "queryRef": "England.92% Standard",
+              "nativeQueryRef": "92% Standard",
+              "displayName": "92% standard"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "England"
+                    }
+                  },
+                  "Property": "70% Target"
+                }
+              },
+              "queryRef": "England.70% Target",
+              "nativeQueryRef": "70% Target",
+              "displayName": "70% target"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C2367A'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "England.% Within 18 Weeks"
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C2410C'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "England.92% Standard"
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#2443D6'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "England.70% Target"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Share within 18 weeks, against the 92% standard and the 70% target'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

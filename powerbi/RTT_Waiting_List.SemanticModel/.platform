@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "RTT_Waiting_List"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a902ac63-9f20-4027-a3ae-8e8e6fd62108"
+  }
+}

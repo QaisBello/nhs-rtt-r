@@ -1,0 +1,124 @@
+/// Treatment functions, England totals (August 2026).
+table Specialties
+	lineageTag: 79d41842-32f1-4fa3-afcd-121593fd2254
+
+	/// England figure per treatment function (excludes non-English commissioners).
+	measure 'Specialty % Within 18 Weeks' = DIVIDE ( SUM ( Specialties[within_18] ), SUM ( Specialties[waiting] ) )
+		formatString: 0.0%
+		displayFolder: Specialties
+		lineageTag: e3056464-b60d-4e72-b35b-cce78a5f9a4c
+
+	/// Pathways over a year, by treatment function.
+	measure 'Specialty Over 52 Weeks' = SUM ( Specialties[over_52] )
+		formatString: #,0
+		displayFolder: Specialties
+		lineageTag: 453c88d4-e762-4cdb-8451-afe92c54135f
+
+	column specialty_code
+		dataType: string
+		isHidden
+		isKey
+		lineageTag: 35edb2a6-3666-40b5-98a0-56e064c8d604
+		summarizeBy: none
+		sourceColumn: specialty_code
+
+	column specialty
+		dataType: string
+		lineageTag: 32d7c40d-a4e1-4a15-93ec-5f39cd0da70e
+		summarizeBy: none
+		sourceColumn: specialty
+
+	column waiting
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 34cf42e7-c4ad-4a48-9890-e16e4cc80e58
+		summarizeBy: none
+		sourceColumn: waiting
+
+	column within_18
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: c4f61254-cf61-492f-a58f-d3e6ea2318a6
+		summarizeBy: none
+		sourceColumn: within_18
+
+	column over_52
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 409eaeff-3a86-45e6-b40e-96453a6e4b61
+		summarizeBy: none
+		sourceColumn: over_52
+
+	column over_65
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 89a0dcc2-275d-4734-951c-713224407479
+		summarizeBy: none
+		sourceColumn: over_65
+
+	column median_weeks
+		dataType: double
+		formatString: 0.0
+		lineageTag: a7f8b67f-bf18-4e3d-9f88-6a1f45b63fc7
+		summarizeBy: none
+		sourceColumn: median_weeks
+
+	column p92_weeks
+		dataType: double
+		formatString: 0.0
+		lineageTag: 370c2bae-7cc6-4d51-8d4a-f6019362d2cf
+		summarizeBy: none
+		sourceColumn: p92_weeks
+
+	column pct_within_18
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: af6ce13f-b7ee-4934-b796-45493f9db051
+		summarizeBy: none
+		sourceColumn: pct_within_18
+
+	column pct_over_52
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 02b2b590-4940-437e-9a15-676c59eedbc8
+		summarizeBy: none
+		sourceColumn: pct_over_52
+
+	partition Specialties = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(
+				        Web.Contents(BaseUrl, [RelativePath = "specialty_summary.csv"]),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				    ),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    // empty cells and R's NA arrive as text and would fail the type change: make them null
+				    #"Blanks to Null" = Table.TransformColumns(#"Promoted Headers", {}, each if _ = "" or _ = "NA" then null else _),
+				    #"Changed Types" = Table.TransformColumnTypes(
+				        #"Blanks to Null",
+				        {
+				            {"specialty_code", type text},
+				            {"specialty", type text},
+				            {"waiting", Int64.Type},
+				            {"within_18", Int64.Type},
+				            {"over_52", Int64.Type},
+				            {"over_65", Int64.Type},
+				            {"median_weeks", type number},
+				            {"p92_weeks", type number},
+				            {"pct_within_18", type number},
+				            {"pct_over_52", type number}
+				        },
+				        "en-US"
+				    ),
+				    #"Filtered Rows" = #"Changed Types",
+				    Result = #"Filtered Rows"
+				in
+				    Result
+
