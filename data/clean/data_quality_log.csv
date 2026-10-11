@@ -1,0 +1,14 @@
+source,check,rows_affected,finding,action
+timeseries,Months read,228,Aug 2007 to Aug 2026,"One row per month; title block, two-row header and footnotes dropped"
+timeseries,Not collected ('-'),164,"Waits over 65, 78 and 104 weeks were not collected in early years","Kept as missing, not zero"
+timeseries,92nd percentile off the scale ('52+'),9,Early months record the 92nd percentile as text '52+',Set to missing with a flag column
+timeseries,Mislabelled column,228,"'Total waiting (mil)' holds counts of pathways, not millions",Read as a count
+extract,Rows read,177770,"177,770 rows, 121 columns, period RTT-August-2026",-
+extract,Incomplete pathways,63444,Part 2 rows: people still waiting (other parts are completed pathways and new referrals),Kept
+extract,Weekly bands,105,"0-1 weeks to 103-104 weeks, then 104+",Summed per group; percentiles interpolated within bands
+extract,Empty 'Total' column,63444,Part 2 leaves 'Total' blank; 'Total All' holds the row total,Totals recomputed from the bands
+extract,Specialty 'Total' rows,12895,Each provider-commissioner pair has a 'Total' row (C_999) as well as its specialty rows,"Totals used for England and trust figures; specialty rows for specialty figures, so nothing is counted twice"
+extract,Non-English commissioners (NONC),31049,Patients treated in England but commissioned elsewhere (e.g. Wales),"Excluded from England figures (commissioner basis, as published); kept in trust figures (provider basis)"
+reconciliation,"England, August 2026",1,"Extract: 7,158,164 waiting, median 12.21, 92nd 38.80, 109,936 over 52 weeks. Published: 7,158,164, 12.21, 38.80, 109,936",Matches
+extract,Small providers,179,Providers with fewer than 500 people waiting (mostly independent sector clinics),"Kept in the data; left out of the funnel plot, where tiny lists dominate the scale"
+output,Clean tables,4,"england_timeseries, specialty_summary, provider_summary, provider_specialty",Written to data/clean

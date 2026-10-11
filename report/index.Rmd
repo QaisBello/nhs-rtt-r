@@ -1,0 +1,167 @@
+---
+title: "Who waits longest?"
+subtitle: "England's NHS waiting list, analysed in R"
+output:
+  html_document:
+    self_contained: true
+    code_folding: hide
+    theme: default
+    highlight: tango
+    css: style.css
+    toc: false
+    mathjax: null
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, dev = "png", dpi = 160,
+                      fig.width = 9, fig.height = 4.6, fig.align = "left")
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r load}
+# everything here reads the cleaned tables in data/clean, built from data/raw by scripts/01_clean.R
+source("R/rtt.R")
+library(ggplot2)
+library(scales)
+library(jsonlite)
+ts   <- read_csv("data/clean/england_timeseries.csv", show_col_types = FALSE)
+spec <- read_csv("data/clean/specialty_summary.csv", show_col_types = FALSE)
+prov <- read_csv("data/clean/provider_summary.csv", show_col_types = FALSE)
+fun  <- read_csv("data/clean/funnel_trusts.csv", show_col_types = FALSE)
+dq   <- read_csv("data/clean/data_quality_log.csv", show_col_types = FALSE)
+s    <- read_json("data/clean/summary.json")
+
+ink <- "#14212e"; muted <- "#7a8794"; accent <- "#0a7d8c"; warn <- "#c2410c"; ctx <- "#b8c1ca"
+theme_set(theme_minimal(base_size = 12, base_family = "sans") +
+  theme(panel.grid.minor = element_blank(), panel.grid.major.x = element_blank(),
+        axis.title = element_text(colour = muted, size = 10), axis.text = element_text(colour = muted),
+        plot.title = element_text(face = "bold", colour = ink, size = 13), plot.title.position = "plot",
+        plot.subtitle = element_text(colour = muted), plot.caption = element_text(colour = muted, size = 8.5, hjust = 0),
+        plot.caption.position = "plot", legend.position = "top", legend.justification = "left"))
+fmt <- function(x) format(x, big.mark = ",", scientific = FALSE)
+# "MID AND SOUTH ESSEX NHS FOUNDATION TRUST" -> "Mid and South Essex NHS Foundation Trust"
+nice <- function(x) str_to_title(x) |> str_replace_all("\\bNhs\\b", "NHS") |> str_replace_all("\\b(And|Of|The)\\b(?!$)", tolower) |>
+  str_replace("^the ", "The ")
+```
+
+<div class="kpis">
+<div><span>People waiting, `r s$month`</span><b>`r sprintf("%.2fm", s$waiting/1e6)`</b><small>`r sprintf("%.2fm with estimates for missing trusts", s$waiting_with_estimates/1e6)`</small></div>
+<div><span>Seen within 18 weeks</span><b>`r s$pct_within_18`%</b><small>standard is 92%, last met `r s$last_met_92`</small></div>
+<div><span>Median wait</span><b>`r s$median_weeks` wks</b><small>92nd percentile `r s$p92_weeks` weeks</small></div>
+<div><span>Waiting over a year</span><b>`r fmt(s$over_52)`</b><small>`r fmt(s$over_65)` over 65 weeks</small></div>
+</div>
+
+<p class="lede">The NHS constitution says 92% of patients should start consultant-led treatment within 18 weeks of referral. England last managed it in <b>`r s$last_met_92`</b>, when `r sprintf("%.1f", s$last_met_waiting/1e6)` million people were waiting. This report rebuilds the official figures from NHS England's raw monthly files and asks where the long waits are: which specialties, which trusts, and whether the gaps between trusts are bigger than chance.</p>
+
+<p class="check">✓ Reconciled: the waiting list, median, 92nd percentile and 52-week count rebuilt from the raw extract match NHS England's published figures for `r s$month` exactly.</p>
+
+## 1. Twice the size, half the speed
+
+```{r trend-size}
+ggplot(ts, aes(month, waiting / 1e6)) +
+  annotate("rect", xmin = as.Date("2020-03-01"), xmax = as.Date("2021-06-01"), ymin = -Inf, ymax = Inf, fill = "#eef1f4") +
+  annotate("text", x = as.Date("2020-10-15"), y = 1.2, label = "COVID", colour = muted, size = 3.2) +
+  geom_line(colour = accent, linewidth = 1) +
+  geom_point(data = ts |> filter(month == max(month)), colour = accent, size = 2.5) +
+  scale_y_continuous(limits = c(0, NA), labels = \(x) paste0(x, "m"), expand = expansion(mult = c(0, .05))) +
+  labs(title = "People waiting to start treatment, England", subtitle = "Incomplete referral-to-treatment pathways, monthly",
+       x = NULL, y = NULL, caption = "Source: NHS England RTT overview time series. Reported trusts only (no estimates for missing data).")
+```
+
+```{r trend-18}
+targets <- tibble(y = c(92, 70, 65), lab = c("92% constitutional standard", "70%: 2026/27 national target", "65%: March 2026 interim target"))
+ggplot(ts, aes(month, pct_within_18)) +
+  geom_hline(data = targets, aes(yintercept = y), colour = warn, linetype = "dashed", linewidth = .5) +
+  geom_text(data = targets, aes(x = min(ts$month), y = y, label = lab), colour = warn, size = 3, hjust = 0, vjust = -0.5) +
+  geom_line(colour = accent, linewidth = 1) +
+  scale_y_continuous(limits = c(40, 100), labels = \(x) paste0(x, "%")) +
+  labs(title = "Share seen within 18 weeks", subtitle = sprintf("%s%% in %s", s$pct_within_18, s$month), x = NULL, y = NULL,
+       caption = "Targets: NHS England planning guidance. The 92% standard was last met in February 2016.")
+```
+
+<p class="note">The list peaked at <b>`r sprintf("%.2f", s$peak_waiting/1e6)` million</b> in `r s$peak_month`. Before COVID (February 2020) it was `r sprintf("%.2f", s$pre_covid_waiting/1e6)` million. The interim target of 65% by March 2026 was met; the 2026/27 target of 70% is still `r sprintf("%.1f", 70 - s$pct_within_18)` points away.</p>
+
+## 2. It depends what's wrong with you
+
+```{r specialty, fig.height = 6}
+sp <- spec |> filter(!str_starts(specialty, "Other")) |>
+  mutate(specialty = str_remove(specialty, " Service$"), specialty = reorder(specialty, median_weeks))
+ggplot(sp, aes(y = specialty)) +
+  geom_segment(aes(x = median_weeks, xend = p92_weeks, yend = specialty), colour = ctx, linewidth = 2.2, lineend = "round") +
+  geom_point(aes(x = median_weeks), colour = accent, size = 3) +
+  geom_point(aes(x = p92_weeks), colour = warn, size = 3) +
+  geom_vline(xintercept = 18, colour = muted, linetype = "dotted") +
+  annotate("text", x = 18.4, y = 1, label = "18 weeks", hjust = 0, colour = muted, size = 3) +
+  scale_x_continuous(limits = c(0, NA), labels = \(x) paste(x, "wks")) +
+  labs(title = "Typical and long waits by specialty", x = NULL, y = NULL,
+       subtitle = "Dot on the left: median wait (half wait less). Dot on the right: 92nd percentile (the wait 8% exceed).",
+       caption = sprintf("%s. Specialties grouped as 'Other' by NHS England are left out of this chart.", s$month))
+```
+
+```{r specialty-table}
+spec |> filter(!str_starts(specialty, "Other")) |> arrange(pct_within_18) |>
+  transmute(Specialty = str_remove(specialty, " Service$"), Waiting = fmt(waiting), `Within 18 wks` = sprintf("%.1f%%", pct_within_18),
+            Median = sprintf("%.1f", median_weeks), `92nd pct` = sprintf("%.1f", p92_weeks), `Over 52 wks` = fmt(over_52)) |>
+  knitr::kable(align = "lrrrrr")
+```
+
+<p class="note"><b>`r str_remove(s$worst_specialty, " Service$")`</b> is furthest from the standard: `r s$worst_specialty_pct`% within 18 weeks, against `r s$best_specialty_pct`% for `r str_remove(s$best_specialty, " Service$")`. Trauma and orthopaedics has the most people waiting a year or more.</p>
+
+## 3. Which trusts are really different?
+
+A league table ranks trusts even when the differences are noise. A **funnel plot** asks a better question: given how many people a trust has waiting, is its performance further from the national rate than chance allows?
+
+```{r funnel, fig.height = 5.4}
+fo <- funnel_overdispersed(fun$within_18, fun$waiting)
+grid <- tibble(n = exp(seq(log(min(fun$waiting)), log(max(fun$waiting)), length.out = 200))) |>
+  mutate(lo95 = fo$limits(n, -1.96), hi95 = fo$limits(n, 1.96), lo998 = fo$limits(n, -3.09), hi998 = fo$limits(n, 3.09))
+lab <- fun |> filter(band != "Within limits", abs(z) > 3.09) |> arrange(z) |> slice(c(1:2, n() - 1, n()))
+ggplot(fun, aes(waiting, 100 * p)) +
+  geom_line(data = grid, aes(n, 100 * hi998), colour = muted, linetype = "dashed") +
+  geom_line(data = grid, aes(n, 100 * lo998), colour = muted, linetype = "dashed") +
+  geom_line(data = grid, aes(n, 100 * hi95), colour = muted, linetype = "dotted") +
+  geom_line(data = grid, aes(n, 100 * lo95), colour = muted, linetype = "dotted") +
+  geom_hline(yintercept = 100 * fo$p0, colour = ink, linewidth = .4) +
+  geom_point(aes(colour = band), size = 2.2, alpha = .9) +
+  geom_text(data = lab, aes(label = nice(str_remove(provider, " NHS.*$")), hjust = ifelse(waiting > 50000, 1.08, -0.08)), size = 2.8, colour = ink) +
+  scale_colour_manual(values = c("Above 99.8% limit" = accent, "Below 99.8% limit" = warn, "Outside 95% limit" = "#7d97ad", "Within limits" = ctx), name = NULL) +
+  scale_x_log10(labels = label_comma()) + scale_y_continuous(labels = \(x) paste0(x, "%")) +
+  labs(title = "% within 18 weeks against waiting-list size, NHS trusts",
+       subtitle = "Dotted: 95% limits. Dashed: 99.8% limits. Limits widened for genuine variation between trusts (overdispersion).",
+       x = "People waiting (log scale)", y = NULL,
+       caption = sprintf("%d NHS trusts with 500+ people waiting, %s. Method: Spiegelhalter (2005), additive random effects.", s$trusts, s$month))
+```
+
+<p class="note">On plain binomial limits, <b>`r s$trusts_outside_binomial` of `r s$trusts`</b> trusts look like outliers, because with lists this large any difference is "significant". Allowing for the normal spread between trusts (an extra `r s$tau` percentage points of variation), <b>`r s$trusts_above_998` trusts are genuinely better</b> than the national rate and <b>`r s$trusts_below_998` genuinely worse</b>. Most of the better-than-chance trusts are community, cancer or specialist trusts with simpler or more planned workloads, so the useful comparison is the large acute trusts in the middle of the funnel. Those outside the limits are the ones worth a closer look, in either direction. `r s$trusts_at_65` of `r s$trusts` trusts are at 65% or above; `r s$trusts_at_70` are at the 70% target for 2026/27.</p>
+
+```{r outliers}
+fun |> filter(abs(z) > 3.09) |> arrange(desc(z)) |>
+  transmute(Trust = nice(provider), Waiting = fmt(waiting), `Within 18 wks` = sprintf("%.1f%%", 100 * p),
+            `z (adjusted)` = sprintf("%+.1f", z), Verdict = ifelse(z > 0, "Better than chance", "Worse than chance")) |>
+  knitr::kable(align = "lrrrl")
+```
+
+## 4. NHS and independent providers
+
+```{r sector, fig.height = 2.6}
+sec <- prov |> filter(!small) |> group_by(sector = ifelse(independent, "Independent sector", "NHS trusts")) |>
+  summarise(waiting = sum(waiting), within_18 = sum(within_18)) |> mutate(pct = 100 * within_18 / waiting)
+ggplot(sec, aes(pct, sector)) + geom_col(fill = c(ctx, accent)[as.integer(sec$sector == "NHS trusts") + 1], width = .55) +
+  geom_text(aes(label = sprintf("%.1f%%, %s waiting", pct, fmt(waiting))), hjust = -0.05, size = 3.4, colour = ink) +
+  scale_x_continuous(limits = c(0, 130), breaks = seq(0, 100, 25), labels = \(x) paste0(x, "%")) +
+  labs(title = "Seen within 18 weeks, by type of provider", x = NULL, y = NULL,
+       caption = "Providers with 500+ waiting. Independent providers treat NHS patients under contract.")
+```
+
+<p class="note">Independent providers see `r s$independent_pct`% within 18 weeks against `r s$nhs_pct`% for NHS trusts, but they hold only `r s$independent_share`% of the list and mostly take routine, lower-complexity cases. This is not a like-for-like comparison.</p>
+
+## 5. Raw to clean
+
+The two raw files are kept exactly as downloaded in `data/raw`. `scripts/01_clean.R` turns them into tidy tables and logs every check:
+
+```{r dq}
+dq |> select(Source = source, Check = check, Rows = rows_affected, Finding = finding, Action = action) |>
+  mutate(Rows = fmt(Rows)) |> knitr::kable()
+```
+
+<p class="foot"><b>Source:</b> NHS England, Referral to Treatment (RTT) Waiting Times: full CSV extract for August 2026 and the overview time series, April 2007 to August 2026. Contains public sector information licensed under the Open Government Licence v3.0. <b>Method:</b> waiting-time percentiles interpolated within one-week bands, as NHS England does; funnel limits follow Spiegelhalter, <i>Statistics in Medicine</i> (2005). Built in R (tidyverse, ggplot2, R Markdown, testthat) by Qais Adeniji-Bello · <a href="https://github.com/QaisBello/nhs-rtt-r">code and data on GitHub</a></p>

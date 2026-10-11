@@ -1,0 +1,10 @@
+Package: nhsrtt
+Title: Who Waits Longest? England's NHS Waiting List in R
+Version: 1.0.0
+Authors@R: person("Qais", "Adeniji-Bello", role = c("aut", "cre"))
+Description: Cleans NHS England Referral to Treatment (RTT) waiting-time files, rebuilds the published figures,
+    and analyses waits by specialty and trust with overdispersed funnel plots.
+License: MIT
+Encoding: UTF-8
+Imports: dplyr, tidyr, readr, readxl, stringr, ggplot2, scales, jsonlite, rmarkdown, knitr
+Suggests: testthat (>= 3.0.0)
