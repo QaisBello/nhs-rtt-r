@@ -1,48 +1,40 @@
 /// The 139 NHS trusts in the funnel plot, with the R analysis's z-scores and bands (binomial and overdispersed).
 table Funnel
-	lineageTag: 65508507-280a-479b-90ff-305a92a33866
 
 	/// Trust waiting list (funnel x axis).
 	measure 'Funnel List Size' = SUM ( Funnel[waiting] )
 		formatString: #,0
 		displayFolder: Funnel
-		lineageTag: 47940e70-91f3-452b-a52f-e96e0e03e7c9
 
 	/// Trust performance (funnel y axis).
 	measure 'Funnel % Within 18 Weeks' = DIVIDE ( SUM ( Funnel[within_18] ), SUM ( Funnel[waiting] ) )
 		formatString: 0.0%
 		displayFolder: Funnel
-		lineageTag: aab0fad1-6f77-42cd-a37b-e089ce0cfbc2
 
 	/// Above the overdispersed 99.8% limit.
 	measure 'Trusts Better Than Chance' = CALCULATE ( COUNTROWS ( Funnel ), Funnel[band] = "Above 99.8% limit" )
 		formatString: #,0
 		displayFolder: Funnel
-		lineageTag: f14e560d-d0fd-4c69-91dd-a8e55e86d25b
 
 	/// Below the overdispersed 99.8% limit.
 	measure 'Trusts Worse Than Chance' = CALCULATE ( COUNTROWS ( Funnel ), Funnel[band] = "Below 99.8% limit" )
 		formatString: #,0
 		displayFolder: Funnel
-		lineageTag: 49ac7680-227d-4842-8741-7927f1232d42
 
 	/// Trusts outside plain binomial 99.8% limits: nearly all of them, which is why overdispersion matters.
 	measure 'Binomial Outliers' = CALCULATE ( COUNTROWS ( Funnel ), ABS ( Funnel[z_binomial] ) > 3.09 )
 		formatString: #,0
 		displayFolder: Funnel
-		lineageTag: efe4cecd-c191-4bb9-8f5e-4c8534aee0dc
 
 	column provider_code
 		dataType: string
 		isHidden
 		isKey
-		lineageTag: b5d1e2fc-f1de-4b67-9895-4763337ff5b9
 		summarizeBy: none
 		sourceColumn: provider_code
 
 	column provider
 		dataType: string
-		lineageTag: 407a4345-ba8c-4fa7-8584-ac0474ffa408
 		summarizeBy: none
 		sourceColumn: provider
 
@@ -50,7 +42,6 @@ table Funnel
 		dataType: int64
 		isHidden
 		formatString: #,0
-		lineageTag: 7c7a6f08-6181-4bfa-8e32-f953e4c9fef1
 		summarizeBy: none
 		sourceColumn: waiting
 
@@ -58,7 +49,6 @@ table Funnel
 		dataType: int64
 		isHidden
 		formatString: #,0
-		lineageTag: f16f31a4-eb0b-4b44-9f51-0d7013b2281d
 		summarizeBy: none
 		sourceColumn: within_18
 
@@ -66,7 +56,6 @@ table Funnel
 		dataType: int64
 		isHidden
 		formatString: #,0
-		lineageTag: 05d6c0de-6fcc-41a7-a640-fd7d7e314376
 		summarizeBy: none
 		sourceColumn: over_52
 
@@ -74,21 +63,18 @@ table Funnel
 		dataType: int64
 		isHidden
 		formatString: #,0
-		lineageTag: 8c365b35-79d5-4c48-a597-c351a3f2f47f
 		summarizeBy: none
 		sourceColumn: over_65
 
 	column median_weeks
 		dataType: double
 		formatString: 0.0
-		lineageTag: f6b2cfe3-3f44-41db-9090-40f88fe633e6
 		summarizeBy: none
 		sourceColumn: median_weeks
 
 	column p92_weeks
 		dataType: double
 		formatString: 0.0
-		lineageTag: 745e91cf-eb9b-48fa-b6bd-c84b0fb8036c
 		summarizeBy: none
 		sourceColumn: p92_weeks
 
@@ -96,7 +82,6 @@ table Funnel
 		dataType: double
 		isHidden
 		formatString: #,0.00
-		lineageTag: 70a31e61-47fd-4573-ac7a-3cf3ba98c102
 		summarizeBy: none
 		sourceColumn: pct_within_18
 
@@ -104,21 +89,18 @@ table Funnel
 		dataType: double
 		isHidden
 		formatString: #,0.00
-		lineageTag: 6347aaa7-6d1c-465c-9a3c-e85b6807dccf
 		summarizeBy: none
 		sourceColumn: pct_over_52
 
 	column independent
 		dataType: boolean
 		isHidden
-		lineageTag: 31e9d9fc-a66f-46aa-8bd1-a7f65afaaaa4
 		summarizeBy: none
 		sourceColumn: independent
 
 	column small
 		dataType: boolean
 		isHidden
-		lineageTag: 87277192-bcbe-40d8-8138-fda496b15075
 		summarizeBy: none
 		sourceColumn: small
 
@@ -126,33 +108,29 @@ table Funnel
 		dataType: double
 		isHidden
 		formatString: #,0.00
-		lineageTag: 1077f740-fba0-4cd6-8e3d-1bcde1656c89
 		summarizeBy: none
 		sourceColumn: p
 
 	column z_binomial
 		dataType: double
 		formatString: 0.0
-		lineageTag: eeff360e-c846-4fbf-867c-cc0c1f617e67
 		summarizeBy: none
 		sourceColumn: z_binomial
 
 	column z
 		dataType: double
 		formatString: 0.00
-		lineageTag: 965ddbec-f98d-47ce-ac18-72e9a872dd21
 		summarizeBy: none
 		sourceColumn: z
 
 	column band
 		dataType: string
-		lineageTag: 68f919ca-0565-467a-b968-c1a7308a184b
 		summarizeBy: none
 		sourceColumn: band
 
 	partition Funnel = m
 		mode: import
-		source =
+		source = ```
 				let
 				    Source = Csv.Document(
 				        Web.Contents(BaseUrl, [RelativePath = "funnel_trusts.csv"]),
@@ -161,8 +139,10 @@ table Funnel
 				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 				    // empty cells and R's NA arrive as text and would fail the type change: make them null
 				    #"Blanks to Null" = Table.TransformColumns(#"Promoted Headers", {}, each if _ = "" or _ = "NA" then null else _),
+				    // True/TRUE/true all become true: pandas writes True, R writes TRUE
+				    #"Booleans" = Table.TransformColumns(#"Blanks to Null", {{"independent", each if _ = null then null else Text.Lower(_)}, {"small", each if _ = null then null else Text.Lower(_)}}),
 				    #"Changed Types" = Table.TransformColumnTypes(
-				        #"Blanks to Null",
+				        #"Booleans",
 				        {
 				            {"provider_code", type text},
 				            {"provider", type text},
@@ -187,4 +167,5 @@ table Funnel
 				    Result = #"Filtered Rows"
 				in
 				    Result
+				```
 

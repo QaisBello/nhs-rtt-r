@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "0058796be15c5a10a25b",
   "position": {
     "x": 900,
     "y": 8,
     "z": 1800,
-    "height": 64,
     "width": 356,
+    "height": 64,
     "tabOrder": 1800
   },
   "visual": {
@@ -27,13 +27,13 @@
                 }
               },
               "queryRef": "Providers.Sector",
-              "nativeQueryRef": "Sector",
-              "active": true
+              "nativeQueryRef": "Sector"
             }
           ]
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "objects": {
       "data": [
         {
@@ -48,7 +48,6 @@
           }
         }
       ]
-    },
-    "drillFilterOtherVisuals": true
+    }
   }
 }

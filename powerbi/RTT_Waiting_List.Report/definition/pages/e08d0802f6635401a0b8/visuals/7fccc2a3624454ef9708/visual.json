@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "7fccc2a3624454ef9708",
   "position": {
     "x": 24,
     "y": 184,
     "z": 10,
-    "height": 524,
     "width": 760,
+    "height": 524,
     "tabOrder": 10
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "Funnel.provider",
               "nativeQueryRef": "provider",
-              "active": true,
               "displayName": "Trust"
             }
           ]
@@ -67,7 +66,6 @@
               },
               "queryRef": "Funnel.Funnel List Size",
               "nativeQueryRef": "Funnel List Size",
-              "active": true,
               "displayName": "Waiting list"
             }
           ]
@@ -93,6 +91,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "visualContainerObjects": {
       "title": [
         {
@@ -121,7 +120,6 @@
           }
         }
       ]
-    },
-    "drillFilterOtherVisuals": true
+    }
   }
 }

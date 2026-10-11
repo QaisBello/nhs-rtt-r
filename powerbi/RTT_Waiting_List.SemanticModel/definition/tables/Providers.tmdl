@@ -1,18 +1,15 @@
 /// Every provider in the August 2026 extract (NHS trusts and independent sector).
 table Providers
-	lineageTag: 54bc13d3-df48-4b8c-8edb-833a7c76aed3
 
 	column provider_code
 		dataType: string
 		isHidden
 		isKey
-		lineageTag: fe685471-f9bb-4c89-aec8-cdad1f24ac43
 		summarizeBy: none
 		sourceColumn: provider_code
 
 	column provider
 		dataType: string
-		lineageTag: 93db9e35-363c-4c98-8c7b-aab98a591e4a
 		summarizeBy: none
 		sourceColumn: provider
 
@@ -20,7 +17,6 @@ table Providers
 		dataType: int64
 		isHidden
 		formatString: #,0
-		lineageTag: 22214886-260c-4472-9800-1c7dfc5ce3a1
 		summarizeBy: none
 		sourceColumn: waiting
 
@@ -28,7 +24,6 @@ table Providers
 		dataType: int64
 		isHidden
 		formatString: #,0
-		lineageTag: 765f30f1-85a7-4484-bd0c-cdf16ecd7f8f
 		summarizeBy: none
 		sourceColumn: within_18
 
@@ -36,7 +31,6 @@ table Providers
 		dataType: int64
 		isHidden
 		formatString: #,0
-		lineageTag: e653a4e5-2842-440c-b124-4917e4cfeae5
 		summarizeBy: none
 		sourceColumn: over_52
 
@@ -44,21 +38,18 @@ table Providers
 		dataType: int64
 		isHidden
 		formatString: #,0
-		lineageTag: c967b3a6-e6d2-4edd-aa85-6808ffb84e6c
 		summarizeBy: none
 		sourceColumn: over_65
 
 	column median_weeks
 		dataType: double
 		formatString: 0.0
-		lineageTag: 0b0df3c6-4108-44a9-9f44-b3f077e0cff2
 		summarizeBy: none
 		sourceColumn: median_weeks
 
 	column p92_weeks
 		dataType: double
 		formatString: 0.0
-		lineageTag: e08f68a9-db93-4f8a-9fa5-683af057e273
 		summarizeBy: none
 		sourceColumn: p92_weeks
 
@@ -66,7 +57,6 @@ table Providers
 		dataType: double
 		isHidden
 		formatString: #,0.00
-		lineageTag: 1c5d2cf0-fcce-47b6-8d5a-fa9bc4fa1f14
 		summarizeBy: none
 		sourceColumn: pct_within_18
 
@@ -74,33 +64,29 @@ table Providers
 		dataType: double
 		isHidden
 		formatString: #,0.00
-		lineageTag: 2d07beba-54ea-48b5-851f-2fae71078459
 		summarizeBy: none
 		sourceColumn: pct_over_52
 
 	column independent
 		dataType: boolean
 		isHidden
-		lineageTag: bd990eaa-a8fb-4d50-afc1-8ab9648f32ed
 		summarizeBy: none
 		sourceColumn: independent
 
 	column small
 		dataType: boolean
 		isHidden
-		lineageTag: ad03688e-9ef8-461e-8ee3-2bea06da5b53
 		summarizeBy: none
 		sourceColumn: small
 
 	column Sector
 		dataType: string
-		lineageTag: 621233b0-aa04-4c22-b174-0976fcb41b4f
 		summarizeBy: none
 		sourceColumn: Sector
 
 	partition Providers = m
 		mode: import
-		source =
+		source = ```
 				let
 				    Source = Csv.Document(
 				        Web.Contents(BaseUrl, [RelativePath = "provider_summary.csv"]),
@@ -109,8 +95,10 @@ table Providers
 				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 				    // empty cells and R's NA arrive as text and would fail the type change: make them null
 				    #"Blanks to Null" = Table.TransformColumns(#"Promoted Headers", {}, each if _ = "" or _ = "NA" then null else _),
+				    // True/TRUE/true all become true: pandas writes True, R writes TRUE
+				    #"Booleans" = Table.TransformColumns(#"Blanks to Null", {{"independent", each if _ = null then null else Text.Lower(_)}, {"small", each if _ = null then null else Text.Lower(_)}}),
 				    #"Changed Types" = Table.TransformColumnTypes(
-				        #"Blanks to Null",
+				        #"Booleans",
 				        {
 				            {"provider_code", type text},
 				            {"provider", type text},
@@ -132,4 +120,5 @@ table Providers
 				    Result = #"Sector"
 				in
 				    Result
+				```
 

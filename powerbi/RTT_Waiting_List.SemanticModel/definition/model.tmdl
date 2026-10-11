@@ -7,15 +7,8 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBI_QueryOrder = ["England","Providers","Specialties","Waiting by Provider","Funnel","BaseUrl"]
-
-annotation PBI_ProTooling = ["DevMode"]
-
 ref table England
 ref table Providers
 ref table Specialties
 ref table 'Waiting by Provider'
 ref table Funnel
-
-ref cultureInfo en-GB
-

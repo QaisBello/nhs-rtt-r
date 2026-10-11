@@ -70,6 +70,7 @@ def csv_m(t):
         '\n#"Filtered Rows" = #"Changed Types",'
     extra = textwrap.dedent(t.get("m_extra", "").strip("\n").rstrip()).strip("\n")
     last = t.get("m_last", "Filtered Rows")
+    bools = ", ".join(f'{{"{c}", each if _ = null then null else Text.Lower(_)}}' for c, ty, _ in cols if ty == "boolean")
     return f'''let
     Source = Csv.Document(
         Web.Contents(BaseUrl, [RelativePath = "{t['file']}"]),
@@ -78,8 +79,10 @@ def csv_m(t):
     #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
     // empty cells and R's NA arrive as text and would fail the type change: make them null
     #"Blanks to Null" = Table.TransformColumns(#"Promoted Headers", {{}}, each if _ = "" or _ = "NA" then null else _),
+    // True/TRUE/true all become true: pandas writes True, R writes TRUE
+    #"Booleans" = Table.TransformColumns(#"Blanks to Null", {{{bools}}}),
     #"Changed Types" = Table.TransformColumnTypes(
-        #"Blanks to Null",
+        #"Booleans",
         {{
 {textwrap.indent(types, " " * 12)}
         }},

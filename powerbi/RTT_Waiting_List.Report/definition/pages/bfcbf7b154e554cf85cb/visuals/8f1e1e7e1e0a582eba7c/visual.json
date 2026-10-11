@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "8f1e1e7e1e0a582eba7c",
   "position": {
     "x": 646,
     "y": 184,
     "z": 11,
-    "height": 400,
     "width": 610,
+    "height": 400,
     "tabOrder": 11
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "England.month",
               "nativeQueryRef": "month",
-              "active": true,
               "displayName": "Month"
             }
           ]
@@ -84,6 +83,7 @@
         }
       }
     },
+    "drillFilterOtherVisuals": true,
     "objects": {
       "dataPoint": [
         {
@@ -170,7 +170,6 @@
           }
         }
       ]
-    },
-    "drillFilterOtherVisuals": true
+    }
   }
 }

@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "074c142f0b0955e7b534",
   "position": {
     "x": 24,
     "y": 76,
     "z": 10,
-    "height": 632,
     "width": 560,
+    "height": 632,
     "tabOrder": 10
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "Specialties.specialty",
               "nativeQueryRef": "specialty",
-              "active": true,
               "displayName": "Specialty"
             }
           ]
@@ -68,9 +67,11 @@
             },
             "direction": "Ascending"
           }
-        ]
+        ],
+        "isDefaultSort": false
       }
     },
+    "drillFilterOtherVisuals": true,
     "objects": {
       "dataPoint": [
         {
@@ -131,7 +132,6 @@
           }
         }
       ]
-    },
-    "drillFilterOtherVisuals": true
+    }
   }
 }
